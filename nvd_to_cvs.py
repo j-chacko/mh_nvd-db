@@ -30,8 +30,5 @@ nvd_to_csv(WinXP_CPE, WinXP_FileName)
 
 
 # REFERENCES
-# - https://pythonguides.com/python-write-a-list-to-csv/
-# - https://stackoverflow.com/questions/17839973/constructing-pandas-dataframe-from-values-in-variables-gives-valueerror-if-usi
-# - https://stackoverflow.com/questions/59775512/why-is-my-output-only-one-row-when-i-try-outputting-my-dataframe-to-a-csv-filep
 # - https://nvdlib.com/en/latest/
 # - https://nvd.nist.gov/developers/vulnerabilities
