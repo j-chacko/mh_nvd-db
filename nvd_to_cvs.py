@@ -5,7 +5,7 @@ from datetime import datetime
 AssEnd_Date = 2021-10-25
 AssStart_Date = AssEnd_Date - 30
 
-PubStart_Date = AssStart_Date + "00:00"
+PubStart_Date = AssStart_Date.strftime("%Y-%m-%d") + "00:00"
 PubEnd_Date = AssEnd_Date.strftime("%Y-%m-%d") + "23:59"
 
 # Query the CVE's for the application from NVD DB and export to a CSV file
@@ -31,6 +31,9 @@ WinXP_CPE = "cpe:2.3:o:microsoft:windows_xp:*:*:*:*:*:*:*:*"
 WinXP_FileName = AssEnd_Date.strftime("%Y-%m-%d") + "_winXP.csv"
 nvd_to_csv(WinXP_CPE, WinXP_FileName)
 
+Win2012R2_CPE = "cpe:2.3:o:microsoft:windows_server_2012:r2:*:*:*:*:*:*:*"
+Win2012R2_FileName = AssEnd_Date.strftime("%Y-%m-%d") + "_win2012R2.csv"
+nvd_to_csv(Win2012R2_CPE, Win2012R2_FileName)
 
 
 # REFERENCES
