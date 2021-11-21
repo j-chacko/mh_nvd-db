@@ -9,10 +9,6 @@ assEndDate = date(2021, 10, 25)
 # assStartDate = assEndDate - timedelta(days=30)  # Subtract 30 days
 
 
-pubStartDate = assStartDate.strftime("%Y-%m-%d") + " 00:00"  # Added space in time string
-pubEndDate = assEndDate.strftime("%Y-%m-%d") + " 23:59"
-
-
 # Query the CVE's for the application from NVD DB and export to a CSV file
 def nvdToCSV(cpeName, fileName):
     r = nvdlib.searchCVE(pubStartDate=assStartDate.strftime("%Y-%m-%d") +" 00:00",
