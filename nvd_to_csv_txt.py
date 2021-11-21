@@ -45,7 +45,7 @@ with open('var.csv', newline='') as csvfile:
         startDate = datetime.strptime(line[0], "%Y-%m-%d")
         endDate = datetime.strptime(line[1], "%Y-%m-%d")
         cpeName = line[2]
-        fileName = line[3] + endDate.strftime("%Y-%m-%d") + ".csv"
+        fileName = line[3] + "_" + endDate.strftime("%Y-%m-%d") + ".csv"
         nvdToCSV(startDate, endDate, cpeName, fileName)
 
 
