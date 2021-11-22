@@ -6,7 +6,7 @@ from datetime import datetime
 
 # Query the keywords from the NVD DB to return the CPE Names and export to a CSV file
 def nvdCPESearch(fileName, keyWord):
-    r = nvdlib.searchCPE(keyword=keyWord, includeDeprecated=True, cves=True)
+    r = nvdlib.searchCPE(keyword=keyWord, includeDeprecated=False, cves=True)
 
     # A place to store all the dictionaries that will be made next
     listOfDicts = []
@@ -53,7 +53,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     inputFile = args.inputFile
 
-# Read the variable file with the paramters
+# Read the variable file with the parameters
 with open(inputFile, newline='') as csvFile:
     file = csv.reader(csvFile, delimiter=',')
     for line in file:
