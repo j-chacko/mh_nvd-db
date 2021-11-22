@@ -5,7 +5,7 @@ from datetime import datetime
 
 
 # Query the CVE's for the application from NVD DB and export to a CSV file
-def nvdToCSV(startDate, endDate, cpeName, fileName):
+def nvdCVESearch(startDate, endDate, cpeName, fileName):
     r = nvdlib.searchCVE(pubStartDate=startDate.strftime("%Y-%m-%d") +" 00:00",
                          pubEndDate=endDate.strftime("%Y-%m-%d") + " 23:59", cpeName=cpeName, cpe_dict=True)
 
@@ -14,8 +14,10 @@ def nvdToCSV(startDate, endDate, cpeName, fileName):
 
     for eachCVE in r:
         # Making the dictionary
-        dictionary = {'CVE ID': eachCVE.id, 'CVE Description': eachCVE.cve.description.description_data[0].value, 'CVE Score': str(eachCVE.score[0]), 'CVE Version': eachCVE.score[1],
-                      'Published Date': eachCVE.publishedDate, 'URL': eachCVE.url}
+        dictionary = {'CVE ID': eachCVE.id, 'v3 Severity': eachCVE.v3severity, 'CVE Score': str(eachCVE.score[0]),
+                      'CVE Version': eachCVE.score[1], 'CVE Description': eachCVE.cve.description.description_data[0].value,
+                      'Published Date': eachCVE.publishedDate, 'URL': eachCVE.url,
+                      'CPE Name': eachCVE.configurations.nodes[0].cpe_match}
         listOfDicts.append(dictionary)  # Adding the dictionary to the list to store them.
 
     # Open/create the file using the filename variable
@@ -24,11 +26,13 @@ def nvdToCSV(startDate, endDate, cpeName, fileName):
         # Define the first row / column headers
         headers = [
             'CVE ID',
-            'CVE Description',
+            'v3 Severity',
             'CVE Score',
             'CVE Version',
+            'CVE Description',
             'Published Date',
-            'URL'
+            'URL',
+            'CPE Name'
         ]
 
         writer = csv.DictWriter(file,
@@ -64,7 +68,7 @@ with open(inputFile, newline='') as csvFile:
         endDate = datetime.strptime(line[1], "%Y-%m-%d")
         cpeName = line[2]
         fileName = line[3] + "_" + endDate.strftime("%Y-%m-%d") + ".csv"
-        nvdToCSV(startDate, endDate, cpeName, fileName)
+        nvdCVESearch(startDate, endDate, cpeName, fileName)
 
 
 # REFERENCES
