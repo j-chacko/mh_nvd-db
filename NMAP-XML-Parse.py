@@ -55,5 +55,7 @@ def main(argv):
 if __name__ == "__main__":
     main(sys.argv)
 
+
 # Credits for the code:
 # - https://github.com/AccentureTVM/Python-Nmap-XML-to-CSV
+
