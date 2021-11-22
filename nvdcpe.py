@@ -4,18 +4,16 @@ import argparse, os
 from datetime import datetime
 
 
-# Query the CVE's for the application from NVD DB and export to a CSV file
-def nvdToCSV(startDate, endDate, cpeName, fileName):
-    r = nvdlib.searchCVE(pubStartDate=startDate.strftime("%Y-%m-%d") +" 00:00",
-                         pubEndDate=endDate.strftime("%Y-%m-%d") + " 23:59", cpeName=cpeName, cpe_dict=True)
+# Query the keywords from the NVD DB to return the CPE Names and export to a CSV file
+def nvdCPESearch(fileName, keyWord):
+    r = nvdlib.searchCPE(keyword=keyWord, includeDeprecated=True, cves=True)
 
     # A place to store all the dictionaries that will be made next
     listOfDicts = []
 
-    for eachCVE in r:
+    for eachCPE in r:
         # Making the dictionary
-        dictionary = {'CVE ID': eachCVE.id, 'CVE Description': eachCVE.cve.description.description_data[0].value, 'CVE Score': str(eachCVE.score[0]), 'CVE Version': eachCVE.score[1],
-                      'Published Date': eachCVE.publishedDate, 'URL': eachCVE.url}
+        dictionary = {'CPE Name': eachCPE.name}
         listOfDicts.append(dictionary)  # Adding the dictionary to the list to store them.
 
     # Open/create the file using the filename variable
@@ -23,13 +21,7 @@ def nvdToCSV(startDate, endDate, cpeName, fileName):
 
         # Define the first row / column headers
         headers = [
-            'CVE ID',
-            'CVE Description',
-            'CPE Name',
-            'CVE Score',
-            'CVE Version',
-            'Published Date',
-            'URL'
+            'CPE Name'
         ]
 
         writer = csv.DictWriter(file,
@@ -49,6 +41,10 @@ def validate_file(f):
     return f
 
 
+todayDate = datetime.today()
+fileName = "CPENames_" + datetime.strftime(todayDate, "%Y%m%d%H%M%S") + ".csv"
+
+
 inputFile = ''
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Search the NVD DB and return CVE's")
@@ -61,11 +57,8 @@ if __name__ == "__main__":
 with open(inputFile, newline='') as csvFile:
     file = csv.reader(csvFile, delimiter=',')
     for line in file:
-        startDate = datetime.strptime(line[0], "%Y-%m-%d")
-        endDate = datetime.strptime(line[1], "%Y-%m-%d")
-        cpeName = line[2]
-        fileName = line[3] + "_" + endDate.strftime("%Y-%m-%d") + ".csv"
-        nvdToCSV(startDate, endDate, cpeName, fileName)
+        keyWord = line[0]
+        nvdCPESearch(fileName, keyWord)
 
 
 # REFERENCES
