@@ -1,6 +1,7 @@
 import nvdlib
 import csv
-import argparse, os
+import argparse
+import os
 from datetime import datetime
 
 
@@ -60,7 +61,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     inputFile = args.inputFile
 
-# Read the variable file with the paramters
+# Read the variable file with the parameters
 with open(inputFile, newline='') as csvFile:
     file = csv.reader(csvFile, delimiter=',')
     for line in file:
